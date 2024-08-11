@@ -7,12 +7,13 @@ document.querySelectorAll('.caract').forEach(function (button) {
     });
 });
 
-// Eventos para os botões de limpar e backspace
-document.querySelector(".clear-button").addEventListener("click", function() {
+// Evento para o botão de limpar
+document.querySelector(".clear-button").addEventListener("click", function () {
     deleteProp("C");
 });
 
-document.querySelector(".back").addEventListener("click", function() {
+// Evento para o botão de backspace
+document.querySelector(".back").addEventListener("click", function () {
     deleteProp("⌫");
 });
 

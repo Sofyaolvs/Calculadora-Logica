@@ -1,0 +1,2 @@
+import { proposicao } from "./funcoes";
+

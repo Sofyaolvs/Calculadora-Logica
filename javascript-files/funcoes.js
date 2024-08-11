@@ -1,5 +1,11 @@
 let proposicao = "";
 
+// Adiciona letra/caractere na proposição
+function addCaractere(caract) {
+    proposicao += caract;
+    atualizarProp();
+}
+
 // Função para deletar o último caractere ou limpar a proposição
 function deleteProp(text) {
     if (text === "⌫") {
@@ -15,9 +21,9 @@ function atualizarProp() {
     document.getElementById('display').value = proposicao;
 }
 
-function addCaractere(caract) {
-    proposicao += caract; // Adiciona letra/caractere na proposição
-    atualizarProp();
+// Função para apresentacao de resultados
+function resultado() {
+    //codigo
 }
 
-export { proposicao, deleteProp, addCaractere }
+export { proposicao, deleteProp, addCaractere, resultado }
