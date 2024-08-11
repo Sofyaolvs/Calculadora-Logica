@@ -1,3 +1,4 @@
+// Variavel Global Display
 let proposicao = "";
 
 // Adiciona letra/caractere na proposição
