@@ -1,4 +1,4 @@
-import { addCaractere, deleteProp } from './funcoes.js';
+import { addCaractere, deleteProp,gerarTabelaVerdade,proposicao} from './funcoes.js';
 
 // Adiciona eventos de clique aos botões de caracteres
 document.querySelectorAll('.caract').forEach(function (button) {
@@ -7,13 +7,18 @@ document.querySelectorAll('.caract').forEach(function (button) {
     });
 });
 
-// Eventos para os botões de limpar e backspace
-document.querySelector(".clear-button").addEventListener("click", function() {
+// Evento p o botão de limpar
+document.querySelector(".clear-button").addEventListener("click", function () {
     deleteProp("C");
 });
 
-document.querySelector(".back").addEventListener("click", function() {
+// Evento p o botão de backspace
+document.querySelector(".back").addEventListener("click", function () {
     deleteProp("⌫");
+});
+
+document.querySelector(".equal").addEventListener("click", function() {
+    gerarTabelaVerdade(proposicao); // Gera a tabela verdade baseada na proposição
 });
 
 
