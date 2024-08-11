@@ -1,4 +1,4 @@
-import { addCaractere, deleteProp } from './funcoes.js';
+import { addCaractere, deleteProp, sentenca } from './funcoes.js';
 
 // Adiciona eventos de clique aos botões de caracteres
 document.querySelectorAll('.caract').forEach(function (button) {
@@ -17,10 +17,7 @@ document.querySelector(".back").addEventListener("click", function () {
     deleteProp("⌫");
 });
 
-
-
-
-
-
-
+document.querySelector(".equal").addEventListener("click", function () {
+    sentenca();
+})
 

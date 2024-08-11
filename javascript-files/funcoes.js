@@ -1,6 +1,6 @@
 // Variavel Global Display
 let proposicao = "";
-const hierarquia = ["(", ")", "~", "^", "v", "→", "↔"];
+//const hierarquia = ["(", ")", "~", "^", "v", "→", "↔"];
 
 // Adiciona letra/caractere na proposição
 function addCaractere(caract) {
@@ -23,4 +23,22 @@ function atualizarProp() {
     document.getElementById('display').value = proposicao;
 }
 
-export { proposicao, deleteProp, addCaractere }
+// Sentenca Logica
+const V = true
+const F = false
+
+function sentenca() {
+    // Testando Afirmacoes
+    let A = true
+    let B = false
+    let C = true
+
+    let translatedExpression = proposicao.replace(/~/g, "!").replace(/\^/g, "&&").replace(/v/g, "||")
+
+    let result = translatedExpression
+
+    alert(result)
+    alert(eval(result))
+}
+
+export { proposicao, deleteProp, addCaractere, sentenca }
