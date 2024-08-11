@@ -1,3 +1,3 @@
-import { proposicao } from "./funcoes";
+import { proposicao, hierarquia } from "./funcoes";
 
-const hierarquia = ["(", ")", "~", "^", "v", "→", "↔"];
+

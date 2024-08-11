@@ -1,5 +1,6 @@
 // Variavel Global Display
 let proposicao = "";
+const hierarquia = ["(", ")", "~", "^", "v", "→", "↔"];
 
 // Adiciona letra/caractere na proposição
 function addCaractere(caract) {
@@ -22,9 +23,4 @@ function atualizarProp() {
     document.getElementById('display').value = proposicao;
 }
 
-// Função para apresentacao de resultados
-function resultado() {
-    //codigo
-}
-
-export { proposicao, deleteProp, addCaractere, resultado }
+export { proposicao, deleteProp, addCaractere }
