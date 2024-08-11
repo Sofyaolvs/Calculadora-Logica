@@ -20,4 +20,4 @@ function addCaractere(caract) {
     atualizarProp();
 }
 
-export {proposicao, deleteProp, addCaractere}
+export { proposicao, deleteProp, addCaractere }
