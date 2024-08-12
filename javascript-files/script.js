@@ -19,5 +19,6 @@ document.querySelector(".back").addEventListener("click", function () {
 
 document.querySelector(".equal").addEventListener("click", function () {
     sentenca();
+    deleteProp();
 })
 
