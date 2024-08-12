@@ -2,8 +2,27 @@
 let proposicao = "";
 
 function addCaractere(caract) {
-    proposicao += caract;
-    atualizarProp();
+
+    if(
+    (proposicao.slice(-1) === caract) || 
+     (proposicao.slice(-1) === "^" && caract === "v") ||
+      (proposicao.slice(-1) === "v" && caract === "^") ||
+       (proposicao.slice(-1) === "^" && caract === "→") ||
+        (proposicao.slice(-1) === "v" && caract === "→") ||
+         (proposicao.slice(-1) === "→" && caract === "^") ||
+          (proposicao.slice(-1) === "→" && caract === "v") ||
+           (proposicao.slice(-1) === "→" && caract === "↔") ||
+            (proposicao.slice(-1) === "↔" && caract === "→") ||
+             (proposicao.slice(-1) === "↔" && caract === "^") ||
+              (proposicao.slice(-1) === "↔" && caract === "v") ||
+               (proposicao.slice(-1) === "^" && caract === "↔") ||
+                (proposicao.slice(-1) === "v" && caract === "↔")){
+        alert("Caractere inválido");
+    }else{
+        proposicao += caract;
+        atualizarProp();
+    }
+
 }
 
 // Função para deletar o último caractere ou limpar a proposição
@@ -46,7 +65,7 @@ function gerarTabelaVerdade(proposicao) {
         
         // p cada var calcula o valor vdd ( v ou f)
         variaveis.forEach((v, index) => {
-            valores[v] = (i >> (variaveis.length - index - 1)) & 1 ? 'V' : 'F';
+            valores[v] = (i >> (variaveis.length - index - 1)) & 1 ? 'F' : 'V';
         });
 
         // Substitui cada variável na proposição pelo valor de verdade correspondente ('V' ou 'F').
