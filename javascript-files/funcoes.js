@@ -16,7 +16,9 @@ function addCaractere(caract) {
              (proposicao.slice(-1) === "↔" && caract === "^") ||
               (proposicao.slice(-1) === "↔" && caract === "v") ||
                (proposicao.slice(-1) === "^" && caract === "↔") ||
-                (proposicao.slice(-1) === "v" && caract === "↔")){
+                (proposicao.slice(-1) === "v" && caract === "↔") ||
+                 (proposicao.slice(-1) === "V" && caract === "F") ||
+                  (proposicao.slice(-1) === "F" && caract === "V")){
         alert("Caractere inválido");
     }else{
         proposicao += caract;
