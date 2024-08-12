@@ -1,7 +1,6 @@
-// Variavel Global Display
+
 let proposicao = "";
 
-// Adiciona letra/caractere na proposição
 function addCaractere(caract) {
     proposicao += caract;
     atualizarProp();
@@ -23,16 +22,64 @@ function atualizarProp() {
 }
 
 function gerarTabelaVerdade(proposicao) {
-    //pega todas as variaveis 
+    // pegas as variaveis proposição
+    //  `replace` remove  os caracteres que não são letras 
+    //  `Set` faz com q cada variavel apareça so uma vez, o `Array.from` converte o set pra um array.
     const variaveis = Array.from(new Set(proposicao.replace(/[^A-Z]/g, '')));
-    const linhas = Math.pow(2, variaveis.length);  //calcula o numero de linhas
 
-    let tabelaHtml = '<table class="table"><tr>'; //cria uma string p armazenar o conteudo ,
-    //cria <table> vai ser container da tabela html e 
-    //atribuiu a classe table por causa do css
-    variaveis.forEach(v => tabelaHtml += `<th>${v}</th>`);//itera o array variaveis e pra cada variavel "v"
-    // add um 
-    tabelaHtml += `<th>${proposicao}</th></tr>`; //cabeçalho das colunas e adc a ultima celula de cabeçalho(linha)
+    // calcula o num de linhas da tabela vdd
+    // 2^num variaveis
+    const linhas = Math.pow(2, variaveis.length);
 
+    // criação da tabela  A primeira linha da tabela tem o nome das variaveis e proposiçao
+    let tabelaHtml = '<table class="table"><tr>';
+    
+    // adc cabeçalho de coluna para cada var
+    variaveis.forEach(v => tabelaHtml += `<th>${v}</th>`);
+    
+    // adc cabeçalho de coluna para a proposiçao
+    tabelaHtml += `<th>${proposicao}</th></tr>`;
+
+    // P cada combinaçao cria um obj pra aramzenar V ou F na linha
+    for (let i = 0; i < linhas; i++) {
+        let valores = {};
+        
+        // p cada var calcula o valor vdd ( v ou f)
+        variaveis.forEach((v, index) => {
+            valores[v] = (i >> (variaveis.length - index - 1)) & 1 ? 'V' : 'F';
+        });
+
+        // Substitui cada variável na proposição pelo valor de verdade correspondente ('V' ou 'F').
+        let resultado = proposicao.replace(/[A-Z]/g, m => valores[m]);
+
+        // avalia a proposiçao
+        // substitui v e f por 1 e 0 para facilitar com `eval`.
+        // susbtitui os caracteres por valores q o js entende
+        resultado = resultado
+            .replace(/~(V|F)/g, (_, p1) => (p1 === 'V' ? 'F' : 'V'))
+            .replace(/V/g, '1').replace(/F/g, '0')
+            .replace(/\^/g, '&&').replace(/v/g, '||')
+            .replace(/→/g, '|| !').replace(/↔/g, '===');
+
+        //  `eval` p avaliar a expressão logica final e dizer se é true (1) ou falsa (0).
+        // converte o resultadi p v ou f dnv
+        const valorFinal = eval(resultado) ? 'V' : 'F';
+
+        // começa uma nova linha na tabela
+        tabelaHtml += '<tr>';
+        
+        // Adiciona uma celula para o valor vdd de cada var
+        variaveis.forEach(v => tabelaHtml += `<td>${valores[v]}</td>`);
+        
+        // Adiciona uma celula(linha) para o resultado final da proposiçao
+        tabelaHtml += `<td>${valorFinal}</td></tr>`;
+    }
+
+    // termina a tabela
+    tabelaHtml += '</table>';
+
+    // bota a tabela no html 
+    document.getElementById('table').innerHTML = tabelaHtml;
 }
+
 export { proposicao, deleteProp, addCaractere, gerarTabelaVerdade }
