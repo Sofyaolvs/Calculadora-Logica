@@ -3,22 +3,22 @@ let proposicao = "";
 
 function addCaractere(caract) {
 
-    if(
-    (proposicao.slice(-1) === caract) || 
-     (proposicao.slice(-1) === "^" && caract === "v") ||
-      (proposicao.slice(-1) === "v" && caract === "^") ||
-       (proposicao.slice(-1) === "^" && caract === "→") ||
+    if (
+        (proposicao.slice(-1) === caract) ||
+        (proposicao.slice(-1) === "^" && caract === "v") ||
+        (proposicao.slice(-1) === "v" && caract === "^") ||
+        (proposicao.slice(-1) === "^" && caract === "→") ||
         (proposicao.slice(-1) === "v" && caract === "→") ||
-         (proposicao.slice(-1) === "→" && caract === "^") ||
-          (proposicao.slice(-1) === "→" && caract === "v") ||
-           (proposicao.slice(-1) === "→" && caract === "↔") ||
-            (proposicao.slice(-1) === "↔" && caract === "→") ||
-             (proposicao.slice(-1) === "↔" && caract === "^") ||
-              (proposicao.slice(-1) === "↔" && caract === "v") ||
-               (proposicao.slice(-1) === "^" && caract === "↔") ||
-                (proposicao.slice(-1) === "v" && caract === "↔")){
+        (proposicao.slice(-1) === "→" && caract === "^") ||
+        (proposicao.slice(-1) === "→" && caract === "v") ||
+        (proposicao.slice(-1) === "→" && caract === "↔") ||
+        (proposicao.slice(-1) === "↔" && caract === "→") ||
+        (proposicao.slice(-1) === "↔" && caract === "^") ||
+        (proposicao.slice(-1) === "↔" && caract === "v") ||
+        (proposicao.slice(-1) === "^" && caract === "↔") ||
+        (proposicao.slice(-1) === "v" && caract === "↔")) {
         alert("Caractere inválido");
-    }else{
+    } else {
         proposicao += caract;
         atualizarProp();
     }
@@ -52,17 +52,17 @@ function gerarTabelaVerdade(proposicao) {
 
     // criação da tabela  A primeira linha da tabela tem o nome das variaveis e proposiçao
     let tabelaHtml = '<table class="table"><tr>';
-    
+
     // adc cabeçalho de coluna para cada var
     variaveis.forEach(v => tabelaHtml += `<th>${v}</th>`);
-    
+
     // adc cabeçalho de coluna para a proposiçao
     tabelaHtml += `<th>${proposicao}</th></tr>`;
 
     // P cada combinaçao cria um obj pra aramzenar V ou F na linha
     for (let i = 0; i < linhas; i++) {
         let valores = {};
-        
+
         // p cada var calcula o valor vdd ( v ou f)
         variaveis.forEach((v, index) => {
             valores[v] = (i >> (variaveis.length - index - 1)) & 1 ? 'F' : 'V';
@@ -78,7 +78,24 @@ function gerarTabelaVerdade(proposicao) {
             .replace(/~(V|F)/g, (_, p1) => (p1 === 'V' ? 'F' : 'V'))
             .replace(/V/g, '1').replace(/F/g, '0')
             .replace(/\^/g, '&&').replace(/v/g, '||')
-            .replace(/→/g, '|| !').replace(/↔/g, '===');
+            .replace(/↔/g, '===');
+
+        if (resultado.includes("→")) {
+
+            let partes = resultado.split("→");
+
+            let novoResultado = partes[0].trim();
+
+            for (let i = 1; i < partes.length; i++) {
+                let argumentoAnterior = novoResultado;
+                let argumentoPosterior = partes[1].trim()
+
+                novoResultado = `!(${ argumentoAnterior }) || (${ argumentoPosterior })`
+            }
+
+            resultado = novoResultado;
+        }
+
 
         //  `eval` p avaliar a expressão logica final e dizer se é true (1) ou falsa (0).
         // converte o resultadi p v ou f dnv
@@ -86,10 +103,10 @@ function gerarTabelaVerdade(proposicao) {
 
         // começa uma nova linha na tabela
         tabelaHtml += '<tr>';
-        
+
         // Adiciona uma celula para o valor vdd de cada var
         variaveis.forEach(v => tabelaHtml += `<td>${valores[v]}</td>`);
-        
+
         // Adiciona uma celula(linha) para o resultado final da proposiçao
         tabelaHtml += `<td>${valorFinal}</td></tr>`;
     }
