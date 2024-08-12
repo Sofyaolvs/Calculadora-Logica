@@ -80,6 +80,7 @@ function gerarTabelaVerdade(proposicao) {
             .replace(/\^/g, '&&').replace(/v/g, '||')
             .replace(/↔/g, '===');
 
+        // Reescrita da Implicação
         if (resultado.includes("→")) {
 
             let partes = resultado.split("→");
