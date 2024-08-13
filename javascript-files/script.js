@@ -16,6 +16,7 @@ document.querySelector(".back").addEventListener("click", function () {
 
 document.querySelector(".equal").addEventListener("click", function() {
     gerarTabelaVerdade(proposicao); // Gera a tabela verdade baseada na proposição
+    deleteProp("");
 });
 
 
