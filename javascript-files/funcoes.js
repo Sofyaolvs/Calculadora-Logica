@@ -30,7 +30,7 @@ function addCaractere(caract) {
         (proposicao.slice(-1) === "F" && (caract === "A" || caract === "B" || caract === "(" || caract === "~" || caract === "V" || caract === "F")) ||
         (proposicao.slice(-1) === "(" && (caract === ")" || caract === "v" || caract === "^" || caract === "→" || caract === "↔" || caract === "V" || caract === "F")) ||
         (proposicao.slice(-1) === ")" && (caract === "A" || caract === "B" || caract === "C" || caract === "~" || caract === "V" || caract === "F" || caract == "(")) ||
-        (proposicao === "" && (caract === ")"))
+        (proposicao === "" && (caract === ")" || caract === "↔" || caract === "→" || caract === "v" || caract === "^"))
     ) {
         //alert("Caractere inválido");
     } else {

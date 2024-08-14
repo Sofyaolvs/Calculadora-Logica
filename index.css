@@ -45,19 +45,20 @@ button {
     font-weight: bold;
     color: #ffffff;
     cursor: pointer;
-    transition: transform 0.1s , background-color 0.3s;
+    transition: transform 0.1s, background-color 0.3s;
 }
 
 button:active {
     /* efeito de afundar o botao */
     /* reduz o tamanho em 0.95 qnd clicado */
-    transform: scale(0.95); 
+    transform: scale(0.95);
 }
 
-.equal{
+.equal {
     background-color: #222722;
 }
-.equal:hover{
+
+.equal:hover {
     background-color: #4d5a86;
 }
 
@@ -65,11 +66,17 @@ button:active {
     background-color: #007bff;
 }
 
-.clear-button, .back {
+.clear-button,
+.back {
     background-color: #dc3545;
 }
 
-.parentheses, .conjunction, .disjunction, .conditional, .biconditional, .negation {
+.parentheses,
+.conjunction,
+.disjunction,
+.conditional,
+.biconditional,
+.negation {
     background-color: #28a745;
 }
 
@@ -96,13 +103,14 @@ button:hover {
     border-collapse: collapse;
 }
 
-.table th, .table td {
+.table th,
+.table td {
     border: 1px solid #ddd;
     padding: 8px;
     text-align: center;
 }
 
 .table th {
-        background-color: #4644eb;
+    background-color: #4644eb;
 
 }
