@@ -2,7 +2,13 @@
 let proposicao = "";
 
 function addCaractere(caract) {
-
+    // let parametroI = false;
+    // for(let k in caract){
+    //     if(k == "("){
+    //         parametroI = true
+    //         break;
+    //     }
+    // }
     if (
         (proposicao.slice(-1) === caract) ||
         (proposicao.slice(-1) === "^" && caract === "v") ||
@@ -23,8 +29,10 @@ function addCaractere(caract) {
         (proposicao.slice(-1) === "V" && (caract === "A" || caract === "B" || caract === "(" || caract === "~" || caract === "V" || caract === "F")) ||
         (proposicao.slice(-1) === "F" && (caract === "A" || caract === "B" || caract === "(" || caract === "~" || caract === "V" || caract === "F")) ||
         (proposicao.slice(-1) === "(" && (caract === ")" || caract === "v" || caract === "^" || caract === "→" || caract === "↔" || caract === "V" || caract === "F")) ||
-        (proposicao.slice(-1) === ")" && (caract === "A" || caract === "B" || caract === "C" || caract === "~" || caract === "V" || caract === "F"))) {
-        alert("Caractere inválido");
+        (proposicao.slice(-1) === ")" && (caract === "A" || caract === "B" || caract === "C" || caract === "~" || caract === "V" || caract === "F" || caract == "(")) ||
+        (proposicao === "" && (caract === ")"))
+    ) {
+        //alert("Caractere inválido");
     } else {
         proposicao += caract;
         atualizarProp();
