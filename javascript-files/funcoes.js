@@ -10,7 +10,6 @@ function addCaractere(caract) {
     //     }
     // }
     if (
-        (proposicao.slice(-1) === caract) ||
         (proposicao.slice(-1) === "^" && caract === "v") ||
         (proposicao.slice(-1) === "v" && caract === "^") ||
         (proposicao.slice(-1) === "^" && caract === "→") ||
