@@ -41,11 +41,11 @@ function sentenca() {
 
         let partes = proposicao.split("→");
 
-        let novaProposicao = partes[0].trim();
+        let novaProposicao = "";
 
         for (let i = 1; i < partes.length; i++) {
-            let argumentoAnterior = novaProposicao;
-            let argumentoPosterior = partes[1].trim()
+            let argumentoAnterior = partes[0].trim();
+            let argumentoPosterior = partes[1].trim();
 
             novaProposicao = `!(${argumentoAnterior}) || (${argumentoPosterior})`
         }
@@ -53,7 +53,20 @@ function sentenca() {
         proposicao = novaProposicao;
     }
 
-    //if(preposicao.includes("↔")){}
+    if (proposicao.includes("↔")) {
+        let partesB = proposicao.split("↔")
+
+        let novaProposicaoB = "";
+
+        for (let i = 0; i < partesB.length; i++) {
+            let argumentoAnteriorB = partesB[0].trim();
+            let argumentoPosteriorB = partesB[1].trim();
+
+            novaProposicaoB = `(${argumentoAnteriorB} && ${argumentoPosteriorB}) || (!(${argumentoAnteriorB}) && !(${argumentoPosteriorB}))`;
+        }
+
+        proposicao = novaProposicaoB;
+    }
 
     let translatedExpression = proposicao.replace(/~/g, "!").replace(/\^/g, "&&").replace(/v/g, "||")
 
