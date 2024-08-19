@@ -32,10 +32,6 @@ const F = false
 
 function sentenca() {
 
-    //Argumentos Testes
-    let A = true
-    let B = false
-    let C = true
 
     if (proposicao.includes("→")) {
 
@@ -71,6 +67,10 @@ function sentenca() {
     let translatedExpression = proposicao.replace(/~/g, "!").replace(/\^/g, "&&").replace(/v/g, "||")
 
     let result = translatedExpression
+
+    //Valores:
+    
+    
 
     deleteProp();
     alert(result);
