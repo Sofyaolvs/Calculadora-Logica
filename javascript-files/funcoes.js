@@ -26,12 +26,7 @@ function atualizarProp() {
     document.getElementById('display').value = proposicaoDisplay;
 }
 
-// Sentenca Logica
-const V = true
-const F = false
-
 function sentenca() {
-
 
     if (proposicao.includes("→")) {
 
@@ -69,12 +64,70 @@ function sentenca() {
     let result = translatedExpression
 
     //Valores:
-    
-    
+    let valores = [true, false];
+    // Sentenca Logica
+    const V = true;
+    const F = false;
 
+    // if (n == 3) {
+    //     sentencaABC(valores, proposicao, result, V, F);
+    // } else if (n == 2) {
+    //     sentencaAB(valores, proposicao, result, V, F);
+    // } else {
+    //     sentenceA(valores, proposicao, result, V, F)
+    // }
     deleteProp();
-    alert(result);
-    alert(eval(result));
+    //alert(result);
+    //alert(eval(result));
+}
+
+function sentencaABC(valores, proposicao, result, V, F) {
+    let A;
+    let B;
+    let C;
+
+    // Inicia a tabela HTML
+    document.write("<table border='1'>");
+    document.write(`<tr><th>A</th><th>B</th><th>C</th><th>${proposicao}</th></tr>`);
+
+    // Loop para gerar as combinações
+    for (let a of valores) {
+        A = a;
+        for (let b of valores) {
+            B = b;
+            for (let c of valores) {
+                C = c;
+                document.write(`<tr><td>${A}</td><td>${B}</td><td>${C}</td><td>${eval(result)}</td></tr>`);
+            }
+        }
+    }
+
+    // Fecha a tabela HTML
+    document.write("</table>");
+}
+
+function sentencaABC(valores, proposicao, result, V, F) {
+    let A;
+    let B;
+
+    // Inicia a tabela HTML
+    document.write("<table border='1'>");
+    document.write(`<tr><th>A</th><th>B</th><th>C</th><th>${proposicao}</th></tr>`);
+
+    // Loop para gerar as combinações
+    for (let a of valores) {
+        A = a;
+        for (let b of valores) {
+            B = b;
+            for (let c of valores) {
+                C = c;
+                document.write(`<tr><td>${A}</td><td>${B}</td><td>${C}</td><td>${eval(result)}</td></tr>`);
+            }
+        }
+    }
+
+    // Fecha a tabela HTML
+    document.write("</table>");
 }
 
 export { proposicao, deleteProp, addCaractere, sentenca }
