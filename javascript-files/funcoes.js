@@ -63,6 +63,14 @@ function sentenca() {
 
     let result = translatedExpression
 
+    let n = 0;
+
+    for (let k of result.length) {
+        if (k == "A" || k == "B" || k == "C") {
+            n++;
+        }
+    }
+
     //Valores:
     let valores = [true, false];
     // Sentenca Logica
@@ -76,6 +84,7 @@ function sentenca() {
     // } else {
     //     sentenceA(valores, proposicao, result, V, F)
     // }
+    alert(result);
     deleteProp();
     //alert(result);
     //alert(eval(result));
