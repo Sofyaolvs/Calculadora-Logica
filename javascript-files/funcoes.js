@@ -84,7 +84,7 @@ function gerarTabelaVerdade(proposicao) {
         resultado = resultado
             .replace(/~(V|F)/g, (_, p1) => (p1 === 'V' ? 'F' : 'V'))
             .replace(/V/g, '1').replace(/F/g, '0')
-            .replace(/\^/g, '&&').replace(/v/g, '||')
+            .replace(/\^/g, '&&').replace(/v/g, '||').replace(/\↔/g, '===')
 
         // Reescrita da Implicação
         if (resultado.includes("→")) {
@@ -103,20 +103,7 @@ function gerarTabelaVerdade(proposicao) {
             resultado = novoResultado;
         }
 
-        if (proposicao.includes("↔")) {
-            let partesB = proposicao.split("↔")
-
-            let novaProposicaoB = "";
-
-            for (let i = 0; i < partesB.length; i++) {
-                let argumentoAnteriorB = partesB[0].trim();
-                let argumentoPosteriorB = partesB[1].trim();
-
-                novaProposicaoB = `(${argumentoAnteriorB} && ${argumentoPosteriorB}) || (!(${argumentoAnteriorB}) && !(${argumentoPosteriorB}))`;
-            }
-
-            proposicao = novaProposicaoB;
-        }
+        //alert("Equação reescrita: " + resultado);
 
         //  `eval` p avaliar a expressão logica final e dizer se é true (1) ou falsa (0).
         // converte o resultadi p v ou f dnv
