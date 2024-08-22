@@ -2,13 +2,6 @@
 let proposicao = "";
 
 function addCaractere(caract) {
-    // let parametroI = false;
-    // for(let k in caract){
-    //     if(k == "("){
-    //         parametroI = true
-    //         break;
-    //     }
-    // }
     if (
         (proposicao.slice(-1) === "^" && caract === "v") ||
         (proposicao.slice(-1) === "v" && caract === "^") ||
@@ -92,7 +85,6 @@ function gerarTabelaVerdade(proposicao) {
             .replace(/~(V|F)/g, (_, p1) => (p1 === 'V' ? 'F' : 'V'))
             .replace(/V/g, '1').replace(/F/g, '0')
             .replace(/\^/g, '&&').replace(/v/g, '||')
-            .replace(/↔/g, '===');
 
         // Reescrita da Implicação
         if (resultado.includes("→")) {
@@ -111,6 +103,20 @@ function gerarTabelaVerdade(proposicao) {
             resultado = novoResultado;
         }
 
+        if (proposicao.includes("↔")) {
+            let partesB = proposicao.split("↔")
+
+            let novaProposicaoB = "";
+
+            for (let i = 0; i < partesB.length; i++) {
+                let argumentoAnteriorB = partesB[0].trim();
+                let argumentoPosteriorB = partesB[1].trim();
+
+                novaProposicaoB = `(${argumentoAnteriorB} && ${argumentoPosteriorB}) || (!(${argumentoAnteriorB}) && !(${argumentoPosteriorB}))`;
+            }
+
+            proposicao = novaProposicaoB;
+        }
 
         //  `eval` p avaliar a expressão logica final e dizer se é true (1) ou falsa (0).
         // converte o resultadi p v ou f dnv
