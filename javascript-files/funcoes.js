@@ -44,22 +44,22 @@ function sentenca() {
         proposicao = novaProposicao;
     }
 
-    if (proposicao.includes("↔")) {
-        let partesB = proposicao.split("↔")
+    // if (proposicao.includes("↔")) {
+    //     let partesB = proposicao.split("↔")
 
-        let novaProposicaoB = "";
+    //     let novaProposicaoB = "";
 
-        for (let i = 0; i < partesB.length; i++) {
-            let argumentoAnteriorB = partesB[0].trim();
-            let argumentoPosteriorB = partesB[1].trim();
+    //     for (let i = 0; i < partesB.length; i++) {
+    //         let argumentoAnteriorB = partesB[0].trim();
+    //         let argumentoPosteriorB = partesB[1].trim();
 
-            novaProposicaoB = `(${argumentoAnteriorB} && ${argumentoPosteriorB}) || (!(${argumentoAnteriorB}) && !(${argumentoPosteriorB}))`;
-        }
+    //         novaProposicaoB = `(${argumentoAnteriorB} && ${argumentoPosteriorB}) || (!(${argumentoAnteriorB}) && !(${argumentoPosteriorB}))`;
+    //     }
 
-        proposicao = novaProposicaoB;
-    }
+    //     proposicao = novaProposicaoB;
+    // }
 
-    let translatedExpression = proposicao.replace(/~/g, "!").replace(/\^/g, "&&").replace(/v/g, "||")
+    let translatedExpression = proposicao.replace(/~/g, "!").replace(/\^/g, "&&").replace(/v/g, "||").replace(/\↔/g, '===');
 
     let result = translatedExpression
 
