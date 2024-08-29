@@ -48,82 +48,78 @@ function atualizarProp() {
 }
 
 function gerarTabelaVerdade(proposicao) {
-    // pegas as variaveis proposição
-    //  `replace` remove  os caracteres que não são letras 
-    //  `Set` faz com q cada variavel apareça so uma vez, o `Array.from` converte o set pra um array.
-    const variaveis = Array.from(new Set(proposicao.replace(/[^A-Z]/g, '')));
-
-    // calcula o num de linhas da tabela vdd
-    // 2^num variaveis
+    // Extrai variáveis únicas da proposição
+    const variaveis = Array.from(new Set(proposicao.match(/[A-Z]/g) || []));
+    
+    // Calcula o número de linhas da tabela verdade
     const linhas = Math.pow(2, variaveis.length);
 
-    // criação da tabela  A primeira linha da tabela tem o nome das variaveis e proposiçao
+    // Cria o cabeçalho da tabela
     let tabelaHtml = '<table class="table"><tr>';
-
-    // adc cabeçalho de coluna para cada var
     variaveis.forEach(v => tabelaHtml += `<th>${v}</th>`);
-
-    // adc cabeçalho de coluna para a proposiçao
     tabelaHtml += `<th>${proposicao}</th></tr>`;
 
-    // P cada combinaçao cria um obj pra aramzenar V ou F na linha
+    // Função para substituir variáveis e operadores lógicos
+    function substituirVariaveis(exp, valores) {
+        let expressao = exp;
+        variaveis.forEach(v => {
+            expressao = expressao.replace(new RegExp(v, 'g'), valores[v] ? 'true' : 'false');
+        });
+        return expressao;
+    }
+
+    // Função para avaliar expressões lógicas com precedência
+    function avaliarExpressao(expressao) {
+        // Substitui operadores lógicos por seus equivalentes JavaScript
+        expressao = expressao
+            .replace(/↔/g, '==')
+            .replace(/\^/g, '&&')
+            .replace(/v/g, '||')
+            .replace(/~/g, '!')
+            .replace(/true/g, 'true')
+            .replace(/false/g, 'false');
+
+        
+        // Avalia a expressão lógica
+        try {
+            alert(expressao)
+            return eval(expressao) ? 'V' : 'F';
+        } catch (e) {
+            console.error('Erro na avaliação da expressão:', expressao, e);
+            return 'Erro';
+        }
+    }
+
+    // Função para processar e avaliar a proposição
+    function calcularValor(exp, valores) {
+        let expressao = substituirVariaveis(exp, valores);
+        return avaliarExpressao(expressao);
+    }
+
+    // Gera as linhas da tabela
     for (let i = 0; i < linhas; i++) {
         let valores = {};
 
-        // p cada var calcula o valor vdd ( v ou f)
+        // Calcula o valor de verdade para cada variável
         variaveis.forEach((v, index) => {
-            valores[v] = (i >> (variaveis.length - index - 1)) & 1 ? 'F' : 'V';
+            valores[v] = (i >> (variaveis.length - index - 1)) & 1;
         });
 
-        // Substitui cada variável na proposição pelo valor de verdade correspondente ('V' ou 'F').
-        let resultado = proposicao.replace(/[A-Z]/g, m => valores[m]);
+        // Calcula o valor da proposição para o conjunto atual de valores
+        const resultado = calcularValor(proposicao, valores);
 
-        // avalia a proposiçao
-        // substitui v e f por 1 e 0 para facilitar com `eval`.
-        // susbtitui os caracteres por valores q o js entende
-        resultado = resultado
-            .replace(/~(V|F)/g, (_, p1) => (p1 === 'V' ? 'F' : 'V'))
-            .replace(/V/g, '1').replace(/F/g, '0')
-            .replace(/\^/g, '&&').replace(/v/g, '||').replace(/\↔/g, '===')
-
-        // Reescrita da Implicação
-        if (resultado.includes("→")) {
-
-            let partes = resultado.split("→");
-
-            let novoResultado = partes[0].trim();
-
-            for (let i = 1; i < partes.length; i++) {
-                let argumentoAnterior = novoResultado;
-                let argumentoPosterior = partes[1].trim()
-
-                novoResultado = `!(${argumentoAnterior}) || (${argumentoPosterior})`
-            }
-
-            resultado = novoResultado;
-        }
-
-        //alert("Equação reescrita: " + resultado);
-
-        //  `eval` p avaliar a expressão logica final e dizer se é true (1) ou falsa (0).
-        // converte o resultadi p v ou f dnv
-        const valorFinal = eval(resultado) ? 'V' : 'F';
-
-        // começa uma nova linha na tabela
+        // Adiciona uma linha na tabela
         tabelaHtml += '<tr>';
-
-        // Adiciona uma celula para o valor vdd de cada var
-        variaveis.forEach(v => tabelaHtml += `<td>${valores[v]}</td>`);
-
-        // Adiciona uma celula(linha) para o resultado final da proposiçao
-        tabelaHtml += `<td>${valorFinal}</td></tr>`;
+        variaveis.forEach(v => tabelaHtml += `<td>${valores[v] ? 'V' : 'F'}</td>`);
+        tabelaHtml += `<td>${resultado}</td></tr>`;
     }
 
-    // termina a tabela
+    // Finaliza a tabela
     tabelaHtml += '</table>';
 
-    // bota a tabela no html 
+    // Insere a tabela no HTML
     document.getElementById('table').innerHTML = tabelaHtml;
 }
+
 
 export { proposicao, deleteProp, addCaractere, gerarTabelaVerdade }
