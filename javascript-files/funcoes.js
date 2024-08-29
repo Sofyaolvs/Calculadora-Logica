@@ -50,7 +50,7 @@ function atualizarProp() {
 function gerarTabelaVerdade(proposicao) {
     // Extrai variáveis únicas da proposição
     const variaveis = Array.from(new Set(proposicao.match(/[A-Z]/g) || []));
-    
+
     // Calcula o número de linhas da tabela verdade
     const linhas = Math.pow(2, variaveis.length);
 
@@ -78,11 +78,26 @@ function gerarTabelaVerdade(proposicao) {
             .replace(/~/g, '!')
             .replace(/true/g, 'true')
             .replace(/false/g, 'false');
-
         
+        // Substituição correta de →
+        if (expressao.includes("→")) {
+
+            let partes = expressao.split("→");
+
+            let novoResultado = partes[0].trim();
+
+            for (let i = 1; i < partes.length; i++) {
+                let argumentoAnterior = novoResultado;
+                let argumentoPosterior = partes[1].trim()
+
+                novoResultado = `!(${argumentoAnterior}) || (${argumentoPosterior})`
+            }
+
+            expressao = novoResultado;
+        }
         // Avalia a expressão lógica
         try {
-            alert(expressao)
+           // alert(expressao)
             return eval(expressao) ? 'V' : 'F';
         } catch (e) {
             console.error('Erro na avaliação da expressão:', expressao, e);
