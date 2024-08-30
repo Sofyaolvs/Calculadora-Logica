@@ -97,7 +97,7 @@ function gerarTabelaVerdade(proposicao) {
         }
         // Avalia a expressão lógica
         try {
-           // alert(expressao)
+            //alert(expressao)
             return eval(expressao) ? 'V' : 'F';
         } catch (e) {
             console.error('Erro na avaliação da expressão:', expressao, e);
