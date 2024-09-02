@@ -1,4 +1,4 @@
-import { addCaractere, deleteProp,gerarTabelaVerdade,proposicao} from './funcoes.js';
+import { addCaractere, deleteProp,gerarTabelaVerdade,proposicao, verificarClassificacao} from './funcoes.js';
 
 document.querySelectorAll('.caract').forEach(function (button) {
     button.addEventListener('click', function () {
@@ -15,13 +15,7 @@ document.querySelector(".back").addEventListener("click", function () {
 });
 
 document.querySelector(".equal").addEventListener("click", function() {
-    gerarTabelaVerdade(proposicao); // Gera a tabela verdade baseada na proposição
+    gerarTabelaVerdade(proposicao);
+    verificarClassificacao();
     deleteProp("");
 });
-
-
-
-
-
-
-

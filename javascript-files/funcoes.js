@@ -136,5 +136,38 @@ function gerarTabelaVerdade(proposicao) {
     document.getElementById('table').innerHTML = tabelaHtml;
 }
 
+function verificarClassificacao() {
+    // Seleciona todas as células da última coluna da tabela verdade
+    const resultados = document.querySelectorAll('#table td:last-child');
+    
+    // Variáveis para controle
+    let todosVerdadeiros = true;
+    let todosFalsos = true;
 
-export { proposicao, deleteProp, addCaractere, gerarTabelaVerdade }
+    // Itera sobre todos os resultados da proposição
+    resultados.forEach(resultado => {
+        const valor = resultado.textContent.trim();
+        if (valor === 'F') {
+            todosVerdadeiros = false; // Se algum resultado for falso, não é tautologia
+        } else if (valor === 'V') {
+            todosFalsos = false; // Se algum resultado for verdadeiro, não é contradição
+        }
+    });
+
+    // Determina a classificação da proposição
+    let classificacao = '';
+    if (todosVerdadeiros) {
+        classificacao = 'Tautologia';
+    } else if (todosFalsos) {
+        classificacao = 'Contradição';
+    } else {
+        classificacao = 'Contingência';
+    }
+
+    // Exibe a classificação no HTML
+    const titulo = document.getElementById('result-title');
+    titulo.textContent = `Classificação: ${classificacao}`;
+    document.body.innerHtml(titulo);
+}
+
+export { proposicao, deleteProp, addCaractere, gerarTabelaVerdade, verificarClassificacao }

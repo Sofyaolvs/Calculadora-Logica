@@ -114,3 +114,9 @@ button:hover {
     background-color: #4644eb;
 
 }
+
+#result-title {
+    text-align: center;
+    font-size: 16px;
+    font-weight: normal;
+}
