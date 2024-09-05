@@ -49,7 +49,7 @@ function atualizarProp() {
 
 function gerarTabelaVerdade(proposicao) {
     // Extrai variáveis únicas da proposição
-    const variaveis = Array.from(new Set(proposicao.match(/[A-Z]/g) || []));
+    const variaveis = Array.from(new Set(proposicao.match(/[A-C]/g) || []));
 
     // Calcula o número de linhas da tabela verdade
     const linhas = Math.pow(2, variaveis.length);
@@ -63,7 +63,7 @@ function gerarTabelaVerdade(proposicao) {
     function substituirVariaveis(exp, valores) {
         let expressao = exp;
         variaveis.forEach(v => {
-            expressao = expressao.replace(new RegExp(v, 'g'), valores[v] ? '0' : '1');
+            expressao = expressao.replace(new RegExp(v, 'g'), valores[v] ? 'false' : 'true');
         });
         return expressao;
     }
@@ -76,24 +76,26 @@ function gerarTabelaVerdade(proposicao) {
             .replace(/\^/g, '&&')
             .replace(/v/g, '||')
             .replace(/~/g, '!')
-            .replace(/true/g, '1')
-            .replace(/false/g, '0');
-
-        // Substituição correta de →
+            .replace(/true/g, 'true')
+            .replace(/false/g, 'false')
+            .replace(/V/g, 'true')
+            .replace(/F/g, 'false')
+            
         if (expressao.includes("→")) {
-            let partes = expressao.split("→");
-
-            let novoResultado = partes[0].trim();
-
+            let partes = expressao.split("→").map(p => p.trim());
+    
+            // A primeira parte é o início do novo resultado
+            let novoResultado = partes[0];
+    
+            // Itera sobre as partes para converter as implicações
             for (let i = 1; i < partes.length; i++) {
-                let argumentoAnterior = novoResultado;
-                let argumentoPosterior = partes[1].trim()
-
-                novoResultado = `(!${argumentoAnterior}) || ${argumentoPosterior}`
+                novoResultado = `((!${novoResultado}) || ${partes[i]})`;
             }
-
+    
             expressao = novoResultado;
         }
+        
+        expressao = removerParentesesOciosos(expressao);
         
         // Avalia a expressão lógica
         try {
@@ -168,6 +170,67 @@ function verificarClassificacao() {
     const titulo = document.getElementById('result-title');
     titulo.textContent = `Classificação: ${classificacao}`;
     document.body.innerHtml(titulo);
+}
+
+function removerParentesesOciosos(expressao) {
+    // Função para verificar se a expressão tem parênteses balanceados
+    function balancearParenteses(exp) {
+        let stack = [];
+        let resultado = '';
+        for (let char of exp) {
+            if (char === '(') {
+                stack.push('(');
+                resultado += char;
+            } else if (char === ')') {
+                if (stack.length > 0) {
+                    stack.pop();
+                    resultado += char;
+                }
+            } else {
+                resultado += char;
+            }
+        }
+        return resultado;
+    }
+
+    // Remove parênteses redundantes
+    function removerParentesesRedundantes(exp) {
+        let resultado = '';
+        let i = 0;
+
+        while (i < exp.length) {
+            if (exp[i] === '(') {
+                let j = i;
+                // Encontra o parêntese de fechamento correspondente
+                let count = 1;
+                while (count > 0 && j < exp.length) {
+                    j++;
+                    if (exp[j] === '(') count++;
+                    if (exp[j] === ')') count--;
+                }
+                
+                // Verifica se os parênteses são redundantes
+                let subExpr = exp.slice(i + 1, j);
+                if (subExpr && subExpr[0] === '(' && subExpr[subExpr.length - 1] === ')') {
+                    subExpr = subExpr.slice(1, -1); // Remove parênteses internos
+                }
+
+                resultado += subExpr;
+                i = j + 1;
+            } else {
+                resultado += exp[i];
+                i++;
+            }
+        }
+
+        return resultado;
+    }
+
+    // Balanceia parênteses e remove redundâncias
+    let expressaoBalanceada = balancearParenteses(expressao);
+    let expressaoLimpa = removerParentesesRedundantes(expressaoBalanceada);
+
+    return expressaoLimpa;
 }
 
 export { proposicao, deleteProp, addCaractere, gerarTabelaVerdade, verificarClassificacao }
