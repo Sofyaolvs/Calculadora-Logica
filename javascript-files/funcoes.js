@@ -63,7 +63,7 @@ function gerarTabelaVerdade(proposicao) {
     function substituirVariaveis(exp, valores) {
         let expressao = exp;
         variaveis.forEach(v => {
-            expressao = expressao.replace(new RegExp(v, 'g'), valores[v] ? 'true' : 'false');
+            expressao = expressao.replace(new RegExp(v, 'g'), valores[v] ? '0' : '1');
         });
         return expressao;
     }
@@ -76,8 +76,8 @@ function gerarTabelaVerdade(proposicao) {
             .replace(/\^/g, '&&')
             .replace(/v/g, '||')
             .replace(/~/g, '!')
-            .replace(/true/g, 'true')
-            .replace(/false/g, 'false');
+            .replace(/true/g, '1')
+            .replace(/false/g, '0');
 
         // Substituição correta de →
         if (expressao.includes("→")) {
@@ -94,6 +94,7 @@ function gerarTabelaVerdade(proposicao) {
 
             expressao = novoResultado;
         }
+        
         // Avalia a expressão lógica
         try {
             alert(expressao)
@@ -124,7 +125,7 @@ function gerarTabelaVerdade(proposicao) {
 
         // Adiciona uma linha na tabela
         tabelaHtml += '<tr>';
-        variaveis.forEach(v => tabelaHtml += `<td>${valores[v] ? 'V' : 'F'}</td>`);
+        variaveis.forEach(v => tabelaHtml += `<td>${valores[v] ? 'F' : 'V'}</td>`);
         tabelaHtml += `<td>${resultado}</td></tr>`;
     }
 
