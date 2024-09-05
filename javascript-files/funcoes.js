@@ -43,6 +43,7 @@ function addCaractere(caract) {
             return;
         }
     }
+
     proposicao += caract;
     atualizarProp();
 }
@@ -110,7 +111,7 @@ function gerarTabelaVerdade(proposicao) {
             expressao = novoResultado;
         }
 
-        expressao = removerParentesesOciosos(expressao);
+        //expressao = removerParentesesOciosos(expressao);
 
         // Avalia a expressão lógica
         try {
