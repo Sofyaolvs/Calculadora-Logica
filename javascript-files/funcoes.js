@@ -78,10 +78,9 @@ function gerarTabelaVerdade(proposicao) {
             .replace(/~/g, '!')
             .replace(/true/g, 'true')
             .replace(/false/g, 'false');
-        
+
         // Substituição correta de →
         if (expressao.includes("→")) {
-
             let partes = expressao.split("→");
 
             let novoResultado = partes[0].trim();
@@ -90,14 +89,14 @@ function gerarTabelaVerdade(proposicao) {
                 let argumentoAnterior = novoResultado;
                 let argumentoPosterior = partes[1].trim()
 
-                novoResultado = `!(${argumentoAnterior}) || (${argumentoPosterior})`
+                novoResultado = `(!${argumentoAnterior}) || ${argumentoPosterior} `
             }
 
             expressao = novoResultado;
         }
         // Avalia a expressão lógica
         try {
-            //alert(expressao)
+            alert(expressao)
             return eval(expressao) ? 'V' : 'F';
         } catch (e) {
             console.error('Erro na avaliação da expressão:', expressao, e);
@@ -139,7 +138,7 @@ function gerarTabelaVerdade(proposicao) {
 function verificarClassificacao() {
     // Seleciona todas as células da última coluna da tabela verdade
     const resultados = document.querySelectorAll('#table td:last-child');
-    
+
     // Variáveis para controle
     let todosVerdadeiros = true;
     let todosFalsos = true;
