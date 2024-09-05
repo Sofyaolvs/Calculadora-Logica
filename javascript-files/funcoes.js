@@ -88,7 +88,7 @@ function gerarTabelaVerdade(proposicao) {
     function avaliarExpressao(expressao) {
         // Substitui operadores lógicos por seus equivalentes JavaScript
         expressao = expressao
-            .replace(/↔/g, '==')
+            .replace(/↔/g, '===')
             .replace(/\^/g, '&&')
             .replace(/v/g, '||')
             .replace(/~/g, '!')
