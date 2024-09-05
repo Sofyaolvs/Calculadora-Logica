@@ -102,7 +102,7 @@ function gerarTabelaVerdade(proposicao) {
             const converter = (partes) => {
                 let novoResultado = partes[0];
                 for (let i = 1; i < partes.length; i++) {
-                    novoResultado = `((!${novoResultado}) || ${partes[i]})`;
+                    novoResultado = `((!(${novoResultado})) || (${partes[i]}))`;
                 }
                 return novoResultado;
             };
