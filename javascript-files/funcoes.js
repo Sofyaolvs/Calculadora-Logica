@@ -98,18 +98,36 @@ function gerarTabelaVerdade(proposicao) {
             .replace(/F/g, 'false')
 
         if (expressao.includes("→")) {
-            let partes = expressao.split("→").map(p => p.trim());
+            // Função auxiliar para converter uma implicação
+            const converter = (partes) => {
+                let novoResultado = partes[0];
+                for (let i = 1; i < partes.length; i++) {
+                    novoResultado = `((!${novoResultado}) || ${partes[i]})`;
+                }
+                return novoResultado;
+            };
 
-            // A primeira parte é o início do novo resultado
-            let novoResultado = partes[0];
+            // Primeiramente, lidamos com as expressões entre parênteses
+            const regexParenteses = /\(([^()]+)\)/g;
+            let match;
 
-            // Itera sobre as partes para converter as implicações
-            for (let i = 1; i < partes.length; i++) {
-                novoResultado = `((!${novoResultado}) || ${partes[i]})`;
+            // Processa as expressões dentro de parênteses
+            while ((match = regexParenteses.exec(expressao)) !== null) {
+                let subExpressao = match[1];
+                if (subExpressao.includes("→")) {
+                    let partes = subExpressao.split("→").map(p => p.trim());
+                    let novoResultado = converter(partes);
+                    expressao = expressao.replace(match[0], `(${novoResultado})`);
+                }
             }
 
-            expressao = novoResultado;
+            // Lida com o que sobrou fora dos parênteses
+            if (expressao.includes("→")) {
+                let partes = expressao.split("→").map(p => p.trim());
+                expressao = converter(partes);
+            }
         }
+
 
         //expressao = removerParentesesOciosos(expressao);
 
