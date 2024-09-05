@@ -1,35 +1,50 @@
-
 let proposicao = "";
+let openParentesesCount = 0;
 
 function addCaractere(caract) {
+    let ultimoCaract = proposicao.slice(-1);
+
+    // Verifica caracteres inválidos como no seu código original
     if (
-        (proposicao.slice(-1) === "^" && caract === "v") ||
-        (proposicao.slice(-1) === "v" && caract === "^") ||
-        (proposicao.slice(-1) === "^" && caract === "→") ||
-        (proposicao.slice(-1) === "v" && caract === "→") ||
-        (proposicao.slice(-1) === "→" && caract === "^") ||
-        (proposicao.slice(-1) === "→" && caract === "v") ||
-        (proposicao.slice(-1) === "→" && caract === "↔") ||
-        (proposicao.slice(-1) === "↔" && caract === "→") ||
-        (proposicao.slice(-1) === "↔" && caract === "^") ||
-        (proposicao.slice(-1) === "↔" && caract === "v") ||
-        (proposicao.slice(-1) === "^" && caract === "↔") ||
-        (proposicao.slice(-1) === "v" && caract === "↔") ||
-        (proposicao.slice(-1) === "A" && (caract === "B" || caract === "C" || caract === "(" || caract === "~" || caract === "V" || caract === "F")) ||
-        (proposicao.slice(-1) === "B" && (caract === "A" || caract === "C" || caract === "(" || caract === "~" || caract === "V" || caract === "F")) ||
-        (proposicao.slice(-1) === "C" && (caract === "A" || caract === "B" || caract === "(" || caract === "~" || caract === "V" || caract === "F")) ||
-        (proposicao.slice(-1) === "V" && (caract === "A" || caract === "B" || caract === "(" || caract === "~" || caract === "V" || caract === "F")) ||
-        (proposicao.slice(-1) === "F" && (caract === "A" || caract === "B" || caract === "(" || caract === "~" || caract === "V" || caract === "F")) ||
-        (proposicao.slice(-1) === "(" && (caract === ")" || caract === "v" || caract === "^" || caract === "→" || caract === "↔" || caract === "V" || caract === "F")) ||
-        (proposicao.slice(-1) === ")" && (caract === "A" || caract === "B" || caract === "C" || caract === "~" || caract === "V" || caract === "F" || caract == "(")) ||
+        (ultimoCaract === "^" && caract === "v") ||
+        (ultimoCaract === "v" && caract === "^") ||
+        (ultimoCaract === "^" && caract === "→") ||
+        (ultimoCaract === "v" && caract === "→") ||
+        (ultimoCaract === "→" && caract === "^") ||
+        (ultimoCaract === "→" && caract === "v") ||
+        (ultimoCaract === "→" && caract === "↔") ||
+        (ultimoCaract === "↔" && caract === "→") ||
+        (ultimoCaract === "↔" && caract === "^") ||
+        (ultimoCaract === "↔" && caract === "v") ||
+        (ultimoCaract === "^" && caract === "↔") ||
+        (ultimoCaract === "v" && caract === "↔") ||
+        (ultimoCaract === "A" && (caract === "A" || caract === "B" || caract === "C" || caract === "(" || caract === "~" || caract === "V" || caract === "F")) ||
+        (ultimoCaract === "B" && (caract === "A" || caract === "B" || caract === "C" || caract === "(" || caract === "~" || caract === "V" || caract === "F")) ||
+        (ultimoCaract === "C" && (caract === "A" || caract === "B" || caract === "C" || caract === "(" || caract === "~" || caract === "V" || caract === "F")) ||
+        (ultimoCaract === "V" && (caract === "A" || caract === "B" || caract === "(" || caract === "~" || caract === "V" || caract === "F")) ||
+        (ultimoCaract === "F" && (caract === "A" || caract === "B" || caract === "(" || caract === "~" || caract === "V" || caract === "F")) ||
+        (ultimoCaract === "(" && (caract === ")" || caract === "v" || caract === "^" || caract === "→" || caract === "↔")) ||
+        (ultimoCaract === ")" && (caract === "A" || caract === "B" || caract === "C" || caract === "~" || caract === "V" || caract === "F" || caract === "(")) ||
         (proposicao === "" && (caract === ")" || caract === "↔" || caract === "→" || caract === "v" || caract === "^"))
     ) {
-        //alert("Caractere inválido");
-    } else {
-        proposicao += caract;
-        atualizarProp();
+        // Caractere inválido, não faz nada
+        return;
     }
 
+    // Lógica de parênteses
+    if (caract === "(") {
+        openParentesesCount++; // Incrementa quando um parêntese de abertura é adicionado
+    } else if (caract === ")") {
+        // Verifica se há parênteses abertos suficientes para fechar
+        if (openParentesesCount > 0) {
+            openParentesesCount--; // Fecha um parêntese
+        } else {
+            // Não há parênteses de abertura suficientes, caractere inválido
+            return;
+        }
+    }
+    proposicao += caract;
+    atualizarProp();
 }
 
 // Função para deletar o último caractere ou limpar a proposição
@@ -80,23 +95,23 @@ function gerarTabelaVerdade(proposicao) {
             .replace(/false/g, 'false')
             .replace(/V/g, 'true')
             .replace(/F/g, 'false')
-            
+
         if (expressao.includes("→")) {
             let partes = expressao.split("→").map(p => p.trim());
-    
+
             // A primeira parte é o início do novo resultado
             let novoResultado = partes[0];
-    
+
             // Itera sobre as partes para converter as implicações
             for (let i = 1; i < partes.length; i++) {
                 novoResultado = `((!${novoResultado}) || ${partes[i]})`;
             }
-    
+
             expressao = novoResultado;
         }
-        
+
         expressao = removerParentesesOciosos(expressao);
-        
+
         // Avalia a expressão lógica
         try {
             alert(expressao)
@@ -208,7 +223,7 @@ function removerParentesesOciosos(expressao) {
                     if (exp[j] === '(') count++;
                     if (exp[j] === ')') count--;
                 }
-                
+
                 // Verifica se os parênteses são redundantes
                 let subExpr = exp.slice(i + 1, j);
                 if (subExpr && subExpr[0] === '(' && subExpr[subExpr.length - 1] === ')') {
