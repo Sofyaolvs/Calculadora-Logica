@@ -89,7 +89,7 @@ function gerarTabelaVerdade(proposicao) {
                 let argumentoAnterior = novoResultado;
                 let argumentoPosterior = partes[1].trim()
 
-                novoResultado = `(!${argumentoAnterior}) || ${argumentoPosterior} `
+                novoResultado = `(!${argumentoAnterior}) || ${argumentoPosterior}`
             }
 
             expressao = novoResultado;
